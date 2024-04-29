@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <form action="/buy" name="buy" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text" />
+            <div class="invalid-feedback">
+                Symbol is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" min="1" name="shares" placeholder="Shares" type="number" />
+            <div class="invalid-feedback">
+                Shares is required.
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Buy</button>
+    </form>
+
+    <script>
+        let buy_form = document.forms.buy;
+
+        buy_form.onsubmit = (event) => {
+            let {symbol, shares} = event.target;
+            let isSubmitted = true;
+
+            [symbol, shares].forEach(field => {
+                if (!field.value) {
+                    field.classList.add("is-invalid");
+                    isSubmitted = false;
+                } else {
+                    if (field.classList.contains("is-invalid")) {
+                        field.classList.remove("is-invalid")
+                    }
+                }
+            })
+
+            if (!isSubmitted) {
+                event.preventDefault();
+            }
+
+            return isSubmitted;
+        }
+    </script>
+{% endblock %}
+

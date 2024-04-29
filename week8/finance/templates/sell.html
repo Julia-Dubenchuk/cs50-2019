@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <form action="/sell" name="sell" method="post">
+        <div class="form-group">
+            <select name="symbol" class="form-control">
+                <option value="" selected disabled>Symbol</option>
+                {% for symbol in symbols %}
+                    <option value='{{ symbol["id"] }}'>{{ symbol["symbol"] }}</option>
+                {% endfor %}
+              </select>
+            <div class="invalid-feedback">
+                Symbol is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" min="1" name="shares" placeholder="Shares" type="number" />
+            <div class="invalid-feedback">
+                Shares is required.
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Sell</button>
+    </form>
+
+    <script>
+        let sell_form = document.forms.sell;
+
+        sell_form.onsubmit = (event) => {
+            let {symbol, shares} = event.target;
+            let isSubmitted = true;
+
+            [symbol, shares].forEach(field => {
+                if (!field.value) {
+                    field.classList.add("is-invalid");
+                    isSubmitted = false;
+                } else {
+                    if (field.classList.contains("is-invalid")) {
+                        field.classList.remove("is-invalid")
+                    }
+                }
+            })
+
+            if (!isSubmitted) {
+                event.preventDefault();
+            }
+
+            return isSubmitted;
+        }
+    </script>
+{% endblock %}

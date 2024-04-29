@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
+    <h1 class="mb-3">Form</h1>
+
+<!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
+    <form action="/form" method="post" name="survey" onsubmit="checkValidation(event)">
+        <div class="form-group">
+            <label for="username">Name</label>
+            <input type="text" class="form-control" id="username" name="name" placeholder="Enter name">
+            <div class="invalid-feedback">
+                The field is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="house">House</label>
+            <select class="form-control" id="house" name="house">
+                <option>Gryffindor</option>
+                <option>Hufflepuff</option>
+                <option>Ravenclaw</option>
+                <option>Slytherin</option>
+            </select>
+            <div class="invalid-feedback">
+                The field is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="position" id="beater" value="beater">
+                <label class="form-check-label" for="beater">
+                    Beater
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="position" id="chaser" value="chaser">
+                <label class="form-check-label" for="chaser">
+                    Chaser
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="position" id="keeper" value="keeper">
+                <label class="form-check-label" for="keeper">
+                    Keeper
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="position" id="seeker" value="seeker">
+                <label class="form-check-label" for="seeker">
+                    Seeker
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="consent" id="consent">
+                <label class="form-check-label" for="consent">
+                    I consent to the processing of my personal data
+                </label>
+                <div class="invalid-feedback">
+                    You must agree before submitting.
+                </div>
+            </div>
+        </div>
+
+    <!-- http://getbootstrap.com/docs/4.1/components/buttons/ -->
+        <button class="btn btn-primary" type="submit">Submit</button>
+
+    </form>
+
+    <script>
+        let checkValidation = (event) => {
+            let {name, house, consent} = event.target;
+            let isSubmitted = true;
+
+            [name, house].forEach(field => {
+                if (!field.value) {
+                    field.classList.add("is-invalid");
+                    isSubmitted = false;
+                }
+            })
+
+            if (!consent.checked) {
+                consent.classList.add("is-invalid");
+                isSubmitted = false;
+            }
+
+            if (!isSubmitted) {
+                event.preventDefault();
+            }
+
+            return isSubmitted;
+        }
+    </script>
+
+{% endblock %}

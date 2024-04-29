@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% block main %}
+    {% if success_updated %}
+        <div class="alert alert-success" role="alert">
+            Password was successful changed!
+        </div>
+    {% endif %}
+
+    <form action="/settings" name="change_password" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="old_password" placeholder="Old password" type="password">
+            <div class="invalid-feedback">
+                Password is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="new_password" placeholder="New password" type="password">
+            <div class="invalid-feedback">
+                Password is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="confirmation" placeholder="Confirmation password" type="password">
+            <div class="invalid-feedback">
+                Confirmation password is required.
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Change password</button>
+    </form>
+
+    <script>
+        let change_password_form = document.forms.change_password;
+
+        change_password_form.onsubmit = (event) => {
+            let {old_password, new_password, confirmation} = event.target;
+            let isSubmitted = true;
+
+            [old_password, new_password, confirmation].forEach(field => {
+                if (!field.value) {
+                    field.classList.add("is-invalid");
+                    isSubmitted = false;
+                    return;
+                } else {
+                    if (field.classList.contains("is-invalid")) {
+                        field.classList.remove("is-invalid");
+                    }
+                }
+
+                // 1. min 8 symbols
+                if (field.value.length < 8) {
+                    isSubmitted = false;
+                    alert("The password should contain more 8 symbols.");
+                    return;
+                }
+
+                // 2. min 3 letters
+                let match_value_letters = field.value.match(/[a-zA-Z]/g) || [];
+
+                if (match_value_letters.length < 3) {
+                    isSubmitted = false;
+                    alert("The password should contain more 3 letters.");
+                    return;
+                }
+
+                // 3. min 2 numbers
+                let match_value_digits = field.value.match(/\d/g) || [];
+
+                if (match_value_digits.length < 2) {
+                    isSubmitted = false;
+                    alert("The password should contain more 2 numbers.");
+                    return;
+                }
+
+                // 4. only 1 another symbol
+                let match_value_symbols = field.value.match(/\W/g) || [];
+
+                if (match_value_symbols.length !== 1) {
+                    isSubmitted = false;
+                    alert("The password should contain only 1 another symbol");
+                    return;
+                }
+
+                // 5. deny spaces
+                let match_value_spaces = field.value.match(/\s/g) || [];
+
+                if (match_value_spaces.length) {
+                    isSubmitted = false;
+                    alert("The password shouldn't contain any spaces");
+                    return;
+                }
+            })
+
+            if (new_password.value && confirmation.value && new_password.value !== confirmation.value) {
+                    isSubmitted = false;
+                    alert("Passwords don't match!");
+            }
+
+            if (!isSubmitted) {
+                event.preventDefault();
+            }
+
+            return isSubmitted;
+        }
+    </script>
+{% endblock %}

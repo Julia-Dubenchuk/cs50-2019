@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" name="register" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+            <div class="invalid-feedback">
+                Username is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" type="password">
+            <div class="invalid-feedback">
+                Password is required.
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="confirmation" placeholder="Confirmation password" type="password">
+            <div class="invalid-feedback">
+                Confirmation password is required.
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+
+    <script>
+        let register_form = document.forms.register;
+
+        register_form.onsubmit = (event) => {
+            event.preventDefault();
+
+            let {username, password, confirmation} = event.target;
+            let isSubmitted = true;
+
+            [username, password, confirmation].forEach(field => {
+                if (!field.value) {
+                    field.classList.add("is-invalid");
+                    isSubmitted = false;
+                } else {
+                    if (field.classList.contains("is-invalid")) {
+                        field.classList.remove("is-invalid");
+                    }
+                }
+            })
+
+            // 1. min 8 symbols
+            if (password.value.length < 8) {
+                isSubmitted = false;
+                alert("The password should contain more 8 symbols.");
+            }
+
+            // 2. min 3 letters
+            let match_value_letters = password.value.match(/[a-zA-Z]/g) || [];
+
+            if (match_value_letters.length < 3) {
+                isSubmitted = false;
+                alert("The password should contain more 3 letters.");
+            }
+
+            // 3. min 2 numbers
+            let match_value_digits = password.value.match(/\d/g) || [];
+
+            if (match_value_digits.length < 2) {
+                isSubmitted = false;
+                alert("The password should contain more 2 numbers.");
+            }
+
+            // 4. only 1 another symbol
+            let match_value_symbols = password.value.match(/\W/g) || [];
+
+            if (match_value_symbols.length !== 1) {
+                isSubmitted = false;
+                alert("The password should contain only 1 another symbol");
+            }
+
+            // 5. deny spaces
+            let match_value_spaces = password.value.match(/\s/g) || [];
+
+            if (match_value_spaces.length) {
+                isSubmitted = false;
+                alert("The password shouldn't contain any spaces");
+            }
+
+            if (password.value && confirmation.value && password.value !== confirmation.value) {
+                isSubmitted = false;
+                alert("Passwords don't match!");
+            }
+
+            if (isSubmitted) {
+                $.get(`/check?username=${username.value}`, function(result) {
+                    if (!result) {
+                        alert("Username is not available!");
+                    } else {
+                        register_form.submit();
+                    }
+                });
+            }
+        }
+    </script>
+{% endblock %}

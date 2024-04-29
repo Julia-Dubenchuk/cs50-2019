@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+    <form action="/quote" name="quote" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text" />
+            <div class="invalid-feedback">
+                Symbol is required.
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Quote</button>
+    </form>
+    <script>
+        let quote_form = document.forms.quote;
+
+        quote_form.onsubmit = (event) => {
+            let symbol = event.target.symbol;
+
+            if (!symbol.value) {
+                symbol.classList.add("is-invalid");
+
+                event.preventDefault();
+
+                return false;
+            } else {
+                if (symbol.classList.contains("is-invalid")) {
+                    symbol.classList.remove("is-invalid");
+                }
+            }
+
+            return true;
+        }
+    </script>
+{% endblock %}
