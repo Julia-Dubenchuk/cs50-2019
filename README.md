@@ -11,7 +11,7 @@ For more info:<a href="https://apps.prometheus.org.ua/learning/course/course-v1:
 
 ### Week 1: C
 
-## Tasks
+#### Tasks
 - hello
 - mario
 - credit
@@ -19,47 +19,47 @@ For more info:<a href="https://apps.prometheus.org.ua/learning/course/course-v1:
 
 ### Week 2: Arrays and Algorithms
 
-## Algorith search
+#### Algorith search
 - Binary search
 - Linear search
 
-## Algorith sort
+#### Algorith sort
 - Buble sort
 - Insertion sort
 - Merge sort
 - Selection sort
 
-## Tasks
+#### Tasks
 - caesar
 - vigenere
 - crack
 
 ### Week 3: Memory
 
-## Tasks
+#### Tasks
 - resize
 - recover
 - whodunit
 
 ### Week 4: Data Structures
 
-## Data Structures
+#### Data Structures
 - Linked List
 - Hash Table
 - Trie
 - Tree
 
-## Tasks
+#### Tasks
 - speller
 
 ### Week 5: Network, HTTP/HTTPS, HTML, CSS, JavaScript
 
-## Tasks
+#### Tasks
 - homepage
 
 ### Week 6: Python
 
-## Tasks
+#### Tasks
 - hello
 - mario
 - credit
@@ -71,11 +71,11 @@ For more info:<a href="https://apps.prometheus.org.ua/learning/course/course-v1:
 
 ### Week 7: Flask
 
-## Tasks
+#### Tasks
 - similarities
 - survey
 
 ### Week 8: SQL
 
-## Tasks
+#### Tasks
 - finance
